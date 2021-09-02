@@ -1,29 +1,15 @@
 
-// component toggler function
-
-const toggleComponent = (id, displayStyle) =>{
-    const component = document.getElementById(id);
-
-    if(displayStyle==='d-block'){
-        component.classList.remove('d-none');
-        component.classList.add(displayStyle);
-    }
-    else{
-        component.classList.add(displayStyle);
-    }
-       
-    }
-
 // starting event handler for search
   const searchBooks = () => {
-  toggleComponent('spinner','d-block');
-  toggleComponent('books','d-none')
+  document.getElementById('spinner').classList.remove('d-none');
+  document.getElementById('spinner').classList.add('d-block');
+  
     document.getElementById("error-message").innerText = '';
     const searchInput = document.getElementById("input-field");
     const searchText = searchInput.value;
     searchInput.value = "";
     if (searchText === "") {
-      displayError("Please enter a book name")
+      displayError("Please enter a book name");
     }
     else {
       const url = `https://openlibrary.org/search.json?q=${searchText}`;
@@ -37,11 +23,8 @@ const getBooks = url => {
     fetch(url)
       .then(res => res.json())
       .then(data => displayBooks(data))
-      .catch(error => displayError(error))
-      .finally(()=>{ 
-        toggleComponent('spinner','d-none');
-        toggleComponent('books','d-block');
-      })
+      .catch(error =>console.log(error))
+
   }
 
 
@@ -52,12 +35,12 @@ const displayBooks = data => {
     const books =data.docs;
     books.forEach(book => {
     count++;
-    console.log(count);
-    const author = book.author_name[0];
-    const publisher = book.publisher;
-    const publishedYear = book.publish_year;
+    const title = book.title?book.title[0]:'';
+    const author = book.author_name?book.author_name[0]:"";
+    const publisher = book.publisher?book.publisher[0]:'';
+    const publishedYear = book.publish_year?book.publish_year[0]:"";
     const coverId = book.cover_i;
-    console.log(Object.keys(book)) ;  
+      
     const booksContainer = document.getElementById('books');
       const div = document.createElement('div');
       div.classList.add('col-6')
@@ -69,7 +52,7 @@ const displayBooks = data => {
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">${book.title}</h5>
               <p class="card-text">Author: ${author}</p>
           <p class="card-text">Published By : ${publisher}</p>
               <p class="card-text"><small class="text-muted">published year: ${publishedYear}</small></p>
@@ -79,6 +62,8 @@ const displayBooks = data => {
       </div>`;
       document.getElementById('resultFound').innerText=`Showing ${count} out of ${numOfResult} resuls found`;
       booksContainer.appendChild(div);
+      document.getElementById('spinner').classList.remove('d-block');
+      document.getElementById('spinner').classList.add('d-none');
     });
 }
 

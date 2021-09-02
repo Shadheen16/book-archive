@@ -10,7 +10,7 @@
 </head>
 <body class="bg-dark">
     <div class="container my-5">
-        <div class="container-fluid">
+        <div>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="search your book" aria-label="search your book" aria-describedby="button-addon2"
                 id="input-field">
@@ -22,10 +22,11 @@
         <div id="error-message" class="bg-warning mb-3 text-center"></div>
         <div class="mb-3 text-center text-white text-xl mb-3"><h2 id="resultFound"></h2></div>
 
-        <div id="spinner" class="spinner-border text-light d-flex d-none" role="status">
+        <div id="spinner" class="spinner-border text-light d-flex justify-content-center d-none" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
-        <main id="books" class="row"
+        <main id="books" class="row row-cols-1 row-cols-md-3 g-4"
+
 >
         </main> 
     </div>
